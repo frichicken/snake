@@ -60,8 +60,8 @@ public:
 
 void init();
 
-void ShowConsoleCursor(bool showFlag);
-void ClearScreen();
+void showConsoleCursor(bool showFlag);
+void clearScreen();
 
 int main()
 {
@@ -78,7 +78,7 @@ int main()
 	system("cls");
 
 	srand(time(0));
-	ShowConsoleCursor(false);
+	showConsoleCursor(false);
 	init();
 
 	char key = 0;
@@ -139,12 +139,12 @@ int main()
 					<< "[" << snake.tails[i].y << "]" << endl;
 		}*/
 
-		ClearScreen();
+		clearScreen();
 
 		if (_kbhit())
 		{
 			key = _getch();
-			if (snake.position.x > 0 && snake.position.x < width && snake.position.y > 0 && snake.position.y < height) {
+			if (snake.position.x > 0 && snake.position.x < width - 1 && snake.position.y > 0 && snake.position.y < height - 1) {
 				if ((key == 'W' || key == 'w') && snake.direction != Direction::DOWN)
 				{
 					snake.direction = Direction::UP;
@@ -261,20 +261,20 @@ int main()
 
 void init()
 {
+	snake.tails.clear();
 
-	ClearScreen();
+	clearScreen();
 	food.position.x = rand() % (width - 2) + 1;
 	food.position.y = rand() % (height - 2) + 1;
 
 	snake.direction = Direction::IDLE;
 	snake.position.x = rand() % (width - 2) + 1;
 	snake.position.y = rand() % (height - 2) + 1;
-	snake.tails.clear();
 
 	score = 0;
 }
 
-void ShowConsoleCursor(bool showFlag)
+void showConsoleCursor(bool showFlag)
 {
 	HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -282,11 +282,11 @@ void ShowConsoleCursor(bool showFlag)
 
 	GetConsoleCursorInfo(out, &cursorInfo);
 	cursorInfo.bVisible = showFlag;
-	cursorInfo.dwSize = 80;
+	cursorInfo.dwSize = 20;
 	SetConsoleCursorInfo(out, &cursorInfo);
 }
 
-void ClearScreen()
+void clearScreen()
 {
 	HANDLE hConsoleOutput;
 	COORD dwCursorPosition;
